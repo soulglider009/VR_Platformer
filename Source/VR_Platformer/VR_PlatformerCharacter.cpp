@@ -52,8 +52,8 @@ void AVR_PlatformerCharacter::SetupPlayerInputComponent(class UInputComponent* P
 	//PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
 	//PlayerInputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
 
-	PlayerInputComponent->BindAxis("MoveForward", this, &AVR_PlatformerCharacter::MoveForward);
-	PlayerInputComponent->BindAxis("MoveRight", this, &AVR_PlatformerCharacter::MoveRight);
+	//PlayerInputComponent->BindAxis("MoveForward", this, &AVR_PlatformerCharacter::MoveForward);
+	//PlayerInputComponent->BindAxis("MoveRight", this, &AVR_PlatformerCharacter::MoveRight);
 
 	// We have 2 versions of the rotation bindings to handle different kinds of devices differently
 	// "turn" handles devices that provide an absolute delta, such as a mouse.
@@ -106,7 +106,7 @@ void AVR_PlatformerCharacter::LookUpAtRate(float Rate)
 	AddControllerPitchInput(Rate * BaseLookUpRate * GetWorld()->GetDeltaSeconds());
 }
 
-void AVR_PlatformerCharacter::MoveForward(float Value)
+void AVR_PlatformerCharacter::MoveForward(float Value, FVector Direction)
 {
 	if ((Controller != NULL) && (Value != 0.0f))
 	{
@@ -115,12 +115,12 @@ void AVR_PlatformerCharacter::MoveForward(float Value)
 		const FRotator YawRotation(0, Rotation.Yaw, 0);
 
 		// get forward vector
-		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
+		//const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
 		AddMovementInput(Direction, Value);
 	}
 }
 
-void AVR_PlatformerCharacter::MoveRight(float Value)
+void AVR_PlatformerCharacter::MoveRight(float Value, FVector Direction)
 {
 	if ( (Controller != NULL) && (Value != 0.0f) )
 	{
@@ -128,8 +128,9 @@ void AVR_PlatformerCharacter::MoveRight(float Value)
 		const FRotator Rotation = Controller->GetControlRotation();
 		const FRotator YawRotation(0, Rotation.Yaw, 0);
 	
+		//auto Camera = GetWorld()->GetFirstPlayerController()->GetControlledPawn()->FindComponentByClass<UCameraComponent>();
 		// get right vector 
-		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
+		//const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
 		// add movement in that direction
 		AddMovementInput(Direction, Value);
 	}
